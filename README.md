@@ -30,7 +30,8 @@ install simple-git-hooks, commitlint, lint-staged
 ```sh
 npm install -D simple-git-hooks \
   lint-staged \
-  commitlint
+  @commitlint/{cli,config-conventional}
+
 ```
 
 add config to `package.json`
@@ -48,11 +49,20 @@ add config to `package.json`
   }
 ```
 
+add commitlint config
+
+```js
+// commitlint.config.js
+module.exports = { extends: ['@commitlint/config-conventional'] };
+```
+
 ### 2. Install Typescript
 
 Resources:
 [Gatsby & Typescript](https://www.gatsbyjs.com/docs/how-to/custom-configuration/typescript/)
 [Gatsby Typescript Plugin](https://www.gatsbyjs.com/plugins/gatsby-plugin-typescript/)
+
+(https://stackoverflow.com/questions/57107800/eslint-disable-extends-in-override)
 
 install typescript
 
@@ -166,7 +176,7 @@ npm install -D stylelint \
   stylelint-config-recommended \
   stylelint-processor-styled-components \
   stylelint-config-styled-components \
-  stylelint-config-prettier \
+  stylelint-config-prettier
 
 ```
 
