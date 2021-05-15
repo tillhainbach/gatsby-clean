@@ -23,6 +23,31 @@ update prettier config file
 
 - `ncu -u && npm install && npm audit fix`
 
+### Setup git hooks
+
+install simple-git-hooks, commitlint, lint-staged
+
+```sh
+npm install -D simple-git-hooks \
+  lint-staged \
+  commitlint
+```
+
+add config to `package.json`
+
+```json
+// package.json
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "npx --no-install commitlint --edit $1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "*.{css,js,jsx,tsx,sass,scss}": "stylelint",
+    "*.{js,jsx,ts,tsx,css,md,json,yaml}": "prettier --write"
+  }
+```
+
 ### 2. Install Typescript
 
 Resources:
