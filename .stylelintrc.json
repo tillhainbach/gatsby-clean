@@ -1,0 +1,24 @@
+{
+  "processors": ["stylelint-processor-styled-components"],
+  "extends": [
+    "stylelint-config-recommended",
+    "stylelint-config-styled-components",
+    "stylelint-config-prettier"
+  ],
+  "plugins": ["stylelint-scss", "stylelint-order"],
+  "rules": {
+    "selector-max-id": 0,
+    "comment-empty-line-before": ["always", { "except": ["first-nested"] }],
+    "declaration-block-single-line-max-declarations": 1,
+    "declaration-property-value-disallowed-list": { "/^border/": ["none"] },
+    "max-nesting-depth": 2,
+    "scss/dollar-variable-pattern": "^_?[a-z]+[\\w-]*$",
+    "scss/at-extend-no-missing-placeholder": true,
+    "order/order": [
+      "declarations",
+      { "type": "at-rule" },
+      { "type": "at-rule", "hasBlock": true },
+      "rules"
+    ]
+  }
+}

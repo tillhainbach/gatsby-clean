@@ -62,8 +62,6 @@ Resources:
 [Gatsby & Typescript](https://www.gatsbyjs.com/docs/how-to/custom-configuration/typescript/)
 [Gatsby Typescript Plugin](https://www.gatsbyjs.com/plugins/gatsby-plugin-typescript/)
 
-(https://stackoverflow.com/questions/57107800/eslint-disable-extends-in-override)
-
 install typescript
 
 ```sh
@@ -136,6 +134,7 @@ npm install eslint \
 ```
 
 add eslint config file
+[Typescript Eslint-Overrides](https://stackoverflow.com/questions/57107800/eslint-disable-extends-in-override)
 
 ```js
 //.eslintrc.js
@@ -144,7 +143,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb-typescript', 'prettier'],
+  extends: ['plugin:react/recommended', 'airbnb', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: ['./tsconfig.eslint.json'],
@@ -161,6 +160,19 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': ['error'],
     'react/require-default-props': ['off'],
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      extends: [
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'airbnb-typescript',
+        'prettier',
+      ],
+      parserOptions: {
+        project: ['./tsconfig.json'], // Specify it only for TypeScript files
+      },
+    },
+  ],
 };
 ```
 

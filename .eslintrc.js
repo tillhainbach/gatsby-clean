@@ -3,10 +3,9 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb-typescript', 'prettier'],
+  extends: ['plugin:react/recommended', 'airbnb', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: ['./tsconfig.json'],
     ecmaFeatures: {
       jsx: true,
     },
@@ -15,4 +14,17 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {},
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      extends: [
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'airbnb-typescript',
+        'prettier',
+      ],
+      parserOptions: {
+        project: ['./tsconfig.json'], // Specify it only for TypeScript files
+      },
+    },
+  ],
 };
