@@ -8,6 +8,7 @@ Start gatsby with a clean slight...
 
 - pull the default starter and delete all src and pages except index and 404.js
 - `npm uninstall gatsby-plugin-gatsby-cloud`and delete from config-file
+- `npm uninstall
 
 update prettier config file
 
@@ -130,6 +131,8 @@ install eslint and plugins
 npm install eslint \
   eslint-config-airbnb \
   eslint-config-airbnb-typescript \
+  @typescript-eslint/eslint-plugin \
+  @typescript-eslint/parser \
   eslint-plugin-import \
   eslint-plugin-jsx-a11y \
   eslint-plugin-react \
@@ -138,8 +141,6 @@ npm install eslint \
   eslint-webpack-plugin \
   gatsby-plugin-eslint \
   eslint-plugin-graphql \
-  @typescript-eslint/eslint-plugin \
-  @typescript-eslint/parser \
   --save-dev
 ```
 
@@ -282,6 +283,7 @@ const babelOptions = {
   presets: ['babel-preset-gatsby', '@babel/preset-typescript'],
 };
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 module.exports = require('babel-jest').createTransformer(babelOptions);
 ```
 
@@ -332,5 +334,27 @@ module.exports = {
   ),
   StaticQuery: jest.fn(),
   useStaticQuery: jest.fn(),
+};
+```
+
+add jest plugins to eslint config
+
+```js
+// .eslintrc.js
+module.exports = {
+  ...
+  plugins: ['jest', 'jest-formatting', 'testing-library'],
+  overrides: [
+    {
+      // enable eslint-plugin-testing-library rules or preset only for matching files!
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+      extends: [
+        'plugin:jest/all',
+        'plugin:jest-formatting/strict',
+        'plugin:testing-library/react',
+      ],
+    },
+  ],
+  ...
 };
 ```
