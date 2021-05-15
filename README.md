@@ -128,14 +128,18 @@ install eslint and plugins
 
 ```sh
 npm install eslint \
+  eslint-config-airbnb \
   eslint-config-airbnb-typescript \
-  @typescript-eslint/eslint-plugin \
-  @typescript-eslint/parser \
   eslint-plugin-import \
   eslint-plugin-jsx-a11y \
   eslint-plugin-react \
   eslint-plugin-react-hooks \
   eslint-config-prettier \
+  eslint-webpack-plugin \
+  gatsby-plugin-eslint \
+  eslint-plugin-graphql \
+  @typescript-eslint/eslint-plugin \
+  @typescript-eslint/parser \
   --save-dev
 ```
 
@@ -228,12 +232,105 @@ add stylelint config file
 }
 ```
 
-### Setup unittesting
+### 6. Setup testing
 
 [Gatsby Unit Testing](https://www.gatsbyjs.com/docs/how-to/testing/unit-testing/)
 
 install dependencies
 
 ```sh
-npm install --save-dev jest babel-jest react-test-renderer babel-preset-gatsby identity-obj-proxy
+npm install --save-dev \
+  jest @types/jest \
+  babel-jest \
+  react-test-renderer @types/react-test-renderer  \
+  babel-preset-gatsby \
+  identity-obj-proxy \
+  @testing-library/react \
+  @testing-library/jest-dom \
+  jest-styled-components \
+  eslint-plugin-jest \
+  eslint-plugin-jest-formatting \
+  eslint-plugin-testing-library
+```
+
+add jest config
+
+```js
+// jest.config.js
+module.exports = {
+  transform: {
+    '^.+\\.[jt]sx?$': '<rootDir>/jest-preprocess.js',
+  },
+  moduleNameMapper: {
+    '.+\\.(css|styl|less|sass|scss)$': `identity-obj-proxy`,
+    '.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `<rootDir>/__mocks__/file-mock.js`,
+  },
+  testPathIgnorePatterns: [`node_modules`, `\\.cache`, `<rootDir>.*/public`],
+  transformIgnorePatterns: [`node_modules/(?!(gatsby)/)`],
+  globals: {
+    __PATH_PREFIX__: ``,
+  },
+  testURL: `http://localhost`,
+  setupFiles: [`<rootDir>/loadershim.js`],
+  setupFilesAfterEnv: ['<rootDir>/setup-test-env.js'],
+};
+```
+
+```js
+// jest-preprocess.js
+const babelOptions = {
+  presets: ['babel-preset-gatsby', '@babel/preset-typescript'],
+};
+
+module.exports = require('babel-jest').createTransformer(babelOptions);
+```
+
+```js
+// __mocks__/file-mock.js
+module.exports = 'test-file-stub';
+```
+
+```js
+// loadershim.js
+global.___loader = {
+  enqueue: jest.fn(),
+};
+```
+
+```js
+// setup-test-env.js
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@testing-library/jest-dom/extend-expect';
+```
+
+mock gatsby
+
+```js
+// __mocks__/gatsby.js
+const React = require('react');
+const gatsby = jest.requireActual('gatsby');
+module.exports = {
+  ...gatsby,
+  graphql: jest.fn(),
+  Link: jest.fn().mockImplementation(
+    // these props are invalid for an `a` tag
+    ({
+      activeClassName,
+      activeStyle,
+      getProps,
+      innerRef,
+      partiallyActive,
+      ref,
+      replace,
+      to,
+      ...rest
+    }) =>
+      React.createElement('a', {
+        ...rest,
+        href: to,
+      })
+  ),
+  StaticQuery: jest.fn(),
+  useStaticQuery: jest.fn(),
+};
 ```
