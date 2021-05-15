@@ -227,3 +227,13 @@ add stylelint config file
   }
 }
 ```
+
+### Setup unittesting
+
+[Gatsby Unit Testing](https://www.gatsbyjs.com/docs/how-to/testing/unit-testing/)
+
+install dependencies
+
+```sh
+npm install --save-dev jest babel-jest react-test-renderer babel-preset-gatsby identity-obj-proxy
+```
