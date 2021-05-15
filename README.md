@@ -116,6 +116,12 @@ add type-check script to package.json
 }
 ```
 
+change source files to `.tsx`-files
+
+```sh
+for f in src/**/*; do mv "$f" "${f//.js/.tsx}"; done
+```
+
 ### 3. Setup eslint
 
 install eslint and plugins
