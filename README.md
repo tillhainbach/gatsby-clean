@@ -358,3 +358,42 @@ module.exports = {
   ...
 };
 ```
+
+### Setup style-components
+
+install deps
+
+```sh
+npm install --save styled-components
+npm i --save-dev @types/styled-components
+```
+
+setup styled-components with typescript
+
+```sh
+mkdir src/types
+touch src/types/styled.d.ts
+mkdir src/styles
+touch src/styles/Theme.ts
+```
+
+```ts
+// styled.d.ts
+
+// import original module declarations
+import 'styled-components';
+
+// and extend them!
+declare module 'styled-components' {
+  export interface DefaultTheme {}
+}
+```
+
+```ts
+// Theme.ts
+import { DefaultTheme } from 'styled-components';
+
+const Theme: DefaultTheme = {};
+
+export default Theme;
+```
